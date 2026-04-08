@@ -65,7 +65,7 @@ window.TalenteaActions = {
         this.perfil = {
             nombre: usuario.nombre || "",
             fotoPerfil: usuario.fotoPerfil || "",
-            titular: usuario.titular || "",
+            estudios: usuario.estudios || usuario.titular || "",
             ubicacion: usuario.ubicacion || "",
             web: usuario.web || "",
             nombreEmpresa: usuario.nombreEmpresa || "",

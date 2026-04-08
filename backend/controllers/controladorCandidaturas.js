@@ -68,7 +68,7 @@ const listarCandidaturasDeProyecto = manejarAsincrono(async (solicitud, respuest
     }
 
     const candidaturas = await Candidatura.find({ proyecto: proyecto._id })
-        .populate("creativo", "nombre titular verificado categorias habilidades valoracionMedia")
+        .populate("creativo", "nombre estudios titular verificado categorias habilidades valoracionMedia")
         .sort({ createdAt: -1 })
 
     respuesta.json({ elementos: candidaturas })

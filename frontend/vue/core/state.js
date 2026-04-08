@@ -12,7 +12,7 @@ window.TalenteaState = {
             perfil: {
                 nombre: "",
                 fotoPerfil: "",
-                titular: "",
+                estudios: "",
                 ubicacion: "",
                 web: "",
                 nombreEmpresa: "",

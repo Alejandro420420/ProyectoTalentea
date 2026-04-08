@@ -58,6 +58,11 @@ const esquemaUsuario = new mongoose.Schema(
             trim: true,
             default: ""
         },
+        estudios: {
+            type: String,
+            trim: true,
+            default: ""
+        },
         titular: {
             type: String,
             trim: true,

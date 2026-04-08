@@ -16,11 +16,11 @@
             <form v-if="app.vistaAcceso === 'login'" class="stack top-gap" @submit.prevent="enviarLogin">
                 <div class="form-group">
                     <label>Email</label>
-                    <input v-model="app.login.email" type="email" placeholder="Email" required />
+                    <input v-model="app.login.email" type="email" placeholder="Email" autocomplete="username" required />
                 </div>
                 <div class="form-group">
                     <label>Contrasena</label>
-                    <input v-model="app.login.password" type="password" placeholder="Contrasena" required />
+                    <input v-model="app.login.password" type="password" placeholder="Contrasena" autocomplete="current-password" required />
                 </div>
                 <div class="form-actions">
                     <button type="submit">Entrar</button>
@@ -34,11 +34,11 @@
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input v-model="app.registro.email" type="email" placeholder="Email" required />
+                    <input v-model="app.registro.email" type="email" placeholder="Email" autocomplete="username" required />
                 </div>
                 <div class="form-group">
                     <label>Contrasena</label>
-                    <input v-model="app.registro.password" type="password" placeholder="Contrasena" required />
+                    <input v-model="app.registro.password" type="password" placeholder="Contrasena" autocomplete="new-password" required />
                 </div>
                 <div class="form-group">
                     <label>Tipo de cuenta</label>
@@ -66,32 +66,44 @@ export default {
     },
     methods: {
         async enviarRegistro() {
-            const datos = await this.app.llamarApi("/api/autenticacion/registro", {
-                method: "POST",
-                body: JSON.stringify(this.app.registro)
-            })
-            this.app.guardarSesion(datos)
-            this.app.mostrarAviso("Cuenta creada correctamente")
-            await Promise.all([
-                this.app.cargarProyectos(),
-                this.app.cargarTalento(),
-                this.app.cargarVistasPrivadas(),
-                this.app.cargarEmpresasInicio()
-            ])
+            const payload = { ...this.app.registro }
+
+            try {
+                const datos = await this.app.llamarApi("/api/autenticacion/registro", {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                })
+                this.app.guardarSesion(datos)
+                this.app.mostrarAviso("Cuenta creada correctamente")
+                await Promise.all([
+                    this.app.cargarProyectos(),
+                    this.app.cargarTalento(),
+                    this.app.cargarVistasPrivadas(),
+                    this.app.cargarEmpresasInicio()
+                ])
+            } finally {
+                this.app.registro.password = ""
+            }
         },
         async enviarLogin() {
-            const datos = await this.app.llamarApi("/api/autenticacion/login", {
-                method: "POST",
-                body: JSON.stringify(this.app.login)
-            })
-            this.app.guardarSesion(datos)
-            this.app.mostrarAviso("Sesion iniciada")
-            await Promise.all([
-                this.app.cargarProyectos(),
-                this.app.cargarTalento(),
-                this.app.cargarVistasPrivadas(),
-                this.app.cargarEmpresasInicio()
-            ])
+            const payload = { ...this.app.login }
+
+            try {
+                const datos = await this.app.llamarApi("/api/autenticacion/login", {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                })
+                this.app.guardarSesion(datos)
+                this.app.mostrarAviso("Sesion iniciada")
+                await Promise.all([
+                    this.app.cargarProyectos(),
+                    this.app.cargarTalento(),
+                    this.app.cargarVistasPrivadas(),
+                    this.app.cargarEmpresasInicio()
+                ])
+            } finally {
+                this.app.login.password = ""
+            }
         }
     }
 }

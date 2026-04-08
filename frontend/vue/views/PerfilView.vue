@@ -19,8 +19,8 @@
                     <input v-model="app.perfil.nombre" placeholder="Nombre visible" />
                 </div>
                 <div class="form-group">
-                    <label>Titular profesional</label>
-                    <input v-model="app.perfil.titular" placeholder="Titular profesional" />
+                    <label>Estudios</label>
+                    <input v-model="app.perfil.estudios" placeholder="Estudios" />
                 </div>
                 <div class="form-group">
                     <label>Ubicacion</label>

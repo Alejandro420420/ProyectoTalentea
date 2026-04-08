@@ -47,11 +47,13 @@ const listarCreativosPublicos = manejarAsincrono(async (solicitud, respuesta) =>
                 ? [
                       { nombre: new RegExp(palabraClave, "i") },
                       { nombreEmpresa: new RegExp(palabraClave, "i") },
+                      { estudios: new RegExp(palabraClave, "i") },
                       { titular: new RegExp(palabraClave, "i") },
                       { biografia: new RegExp(palabraClave, "i") }
                   ]
                 : [
                       { nombre: new RegExp(palabraClave, "i") },
+                      { estudios: new RegExp(palabraClave, "i") },
                       { titular: new RegExp(palabraClave, "i") },
                       { biografia: new RegExp(palabraClave, "i") },
                       { habilidades: new RegExp(palabraClave, "i") }
@@ -91,13 +93,17 @@ const obtenerUsuarioPorId = manejarAsincrono(async (solicitud, respuesta) => {
 })
 
 const actualizarPerfil = manejarAsincrono(async (solicitud, respuesta) => {
-    const camposPermitidos = ["nombre", "titular", "biografia", "ubicacion", "web", "nombreEmpresa", "fotoPerfil"]
+    const camposPermitidos = ["nombre", "estudios", "biografia", "ubicacion", "web", "nombreEmpresa", "fotoPerfil"]
 
     camposPermitidos.forEach((campo) => {
         if (typeof solicitud.body[campo] !== "undefined") {
             solicitud.usuario[campo] = solicitud.body[campo]
         }
     })
+
+    if (typeof solicitud.body.estudios !== "undefined") {
+        solicitud.usuario.titular = solicitud.body.estudios
+    }
 
     if (typeof solicitud.body.categorias !== "undefined") {
         solicitud.usuario.categorias = parsearLista(solicitud.body.categorias)

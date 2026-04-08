@@ -32,7 +32,7 @@
                         </h3>
                     </div>
                 </div>
-                <p class="meta">{{ persona.titular || 'Sin titular' }} - Rating {{ persona.valoracionMedia || 0 }} ({{ persona.totalValoraciones || 0 }})</p>
+                <p class="meta">{{ persona.estudios || persona.titular || 'Sin estudios' }} - Rating {{ persona.valoracionMedia || 0 }} ({{ persona.totalValoraciones || 0 }})</p>
                 <p>{{ persona.biografia || 'Sin biografia todavia.' }}</p>
                 <div>
                     <span v-for="categoria in persona.categorias || []" :key="categoria" class="pill">{{ categoria }}</span>

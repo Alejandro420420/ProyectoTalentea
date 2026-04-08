@@ -10,7 +10,7 @@
                         <span>{{ app.modalPerfil.usuario?.nombreEmpresa || app.modalPerfil.usuario?.nombre }}</span>
                         <span v-if="app.modalPerfil.usuario?.verificado" class="tick-verificado" title="Perfil verificado" aria-label="Perfil verificado">&#10003;</span>
                     </h2>
-                    <p class="meta">{{ app.modalPerfil.usuario?.titular || 'Sin titular' }} - {{ app.obtenerTextoRol(app.modalPerfil.usuario?.rol) }}</p>
+                    <p class="meta">{{ app.modalPerfil.usuario?.estudios || app.modalPerfil.usuario?.titular || 'Sin estudios' }} - {{ app.obtenerTextoRol(app.modalPerfil.usuario?.rol) }}</p>
                 </div>
             </div>
             <p class="top-gap">{{ app.modalPerfil.usuario?.biografia || 'Sin biografia todavia.' }}</p>

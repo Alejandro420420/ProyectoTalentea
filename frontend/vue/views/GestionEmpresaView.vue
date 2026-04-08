@@ -23,7 +23,7 @@
                 <div v-if="proyecto.candidaturas?.length">
                     <article v-for="candidatura in proyecto.candidaturas" :key="candidatura._id" class="tarjeta tarjeta-clickable top-gap md-card" @click="candidatura.creativo?._id && app.abrirPerfil(candidatura.creativo._id, proyecto._id)">
                         <h3>{{ candidatura.creativo?.nombre || 'Usuario' }}</h3>
-                        <p class="meta">{{ candidatura.creativo?.titular || 'Sin titular' }} - Estado: {{ candidatura.estado }}</p>
+                        <p class="meta">{{ candidatura.creativo?.estudios || candidatura.creativo?.titular || 'Sin estudios' }} - Estado: {{ candidatura.estado }}</p>
                         <p>{{ candidatura.cartaPresentacion || 'Sin mensaje' }}</p>
                         <div class="acciones">
                             <button type="button" class="boton-secundario" @click.stop="candidatura.creativo?._id && app.abrirPerfil(candidatura.creativo._id, proyecto._id)">Ver perfil</button>

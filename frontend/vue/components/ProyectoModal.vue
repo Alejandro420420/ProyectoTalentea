@@ -26,7 +26,7 @@
                             <span>{{ app.modalProyecto.empresa?.nombreEmpresa || app.modalProyecto.empresa?.nombre || 'Empresa' }}</span>
                             <span v-if="app.modalProyecto.empresa?.verificado" class="tick-verificado" title="Empresa verificada" aria-label="Empresa verificada">&#10003;</span>
                         </h3>
-                        <p class="meta">{{ app.modalProyecto.empresa?.titular || 'Empresa en Talentea' }}</p>
+                        <p class="meta">{{ app.modalProyecto.empresa?.estudios || app.modalProyecto.empresa?.titular || 'Empresa en Talentea' }}</p>
                     </div>
                 </div>
                 <p class="top-gap">{{ app.modalProyecto.empresa?.biografia || 'Sin descripcion de empresa por ahora.' }}</p>

@@ -39,8 +39,8 @@ const listarProyectos = manejarAsincrono(async (solicitud, respuesta) => {
     }
 
     const proyectos = await Proyecto.find(consulta)
-        .populate("empresa", "nombre nombreEmpresa verificado fotoPerfil titular biografia ubicacion web")
-        .populate("creativoSeleccionado", "nombre titular")
+        .populate("empresa", "nombre nombreEmpresa verificado fotoPerfil estudios titular biografia ubicacion web")
+        .populate("creativoSeleccionado", "nombre estudios titular")
         .sort({ createdAt: -1 })
 
     respuesta.json({ elementos: proyectos })
@@ -48,8 +48,8 @@ const listarProyectos = manejarAsincrono(async (solicitud, respuesta) => {
 
 const obtenerProyectoPorId = manejarAsincrono(async (solicitud, respuesta) => {
     const proyecto = await Proyecto.findById(solicitud.params.id)
-        .populate("empresa", "nombre nombreEmpresa verificado fotoPerfil titular biografia ubicacion web")
-        .populate("creativoSeleccionado", "nombre titular")
+        .populate("empresa", "nombre nombreEmpresa verificado fotoPerfil estudios titular biografia ubicacion web")
+        .populate("creativoSeleccionado", "nombre estudios titular")
 
     if (!proyecto) {
         return respuesta.status(404).json({ mensaje: "Proyecto no encontrado" })

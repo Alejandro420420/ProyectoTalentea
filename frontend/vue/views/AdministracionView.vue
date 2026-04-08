@@ -27,7 +27,7 @@
             <article v-for="item in verificacionesPendientes" :key="item._id" class="tarjeta md-card">
                 <h3>{{ item.nombreEmpresa || item.nombre }}</h3>
                 <p class="meta">{{ app.obtenerTextoRol(item.rol) }} - {{ item.email }}</p>
-                <p>{{ item.nombreEmpresa || item.titular || item.biografia || 'Sin informacion ampliada.' }}</p>
+                <p>{{ item.nombreEmpresa || item.estudios || item.titular || item.biografia || 'Sin informacion ampliada.' }}</p>
                 <div class="acciones">
                     <button type="button" @click="verificarUsuario(item._id, true)">Verificar</button>
                     <button type="button" class="boton-secundario" @click="abrirEdicionAdmin(item)">Editar</button>
@@ -40,7 +40,7 @@
             <article v-for="item in usuariosCreativos" :key="item._id" class="tarjeta md-card">
                 <h3>{{ item.nombre }}</h3>
                 <p class="meta">{{ app.obtenerTextoRol(item.rol) }} - {{ item.email }} - {{ item.verificado ? 'Verificado' : 'Pendiente' }}</p>
-                <p>{{ item.titular || item.biografia || 'Sin informacion ampliada.' }}</p>
+                <p>{{ item.estudios || item.titular || item.biografia || 'Sin informacion ampliada.' }}</p>
                 <div class="acciones">
                     <button type="button" @click="verificarUsuario(item._id, true)">Verificar</button>
                     <button type="button" class="boton-secundario" @click="verificarUsuario(item._id, false)">Quitar verificacion</button>
@@ -55,7 +55,7 @@
             <article v-for="item in empresasAdmin" :key="item._id" class="tarjeta md-card">
                 <h3>{{ item.nombreEmpresa || item.nombre }}</h3>
                 <p class="meta">Empresa - {{ item.email }} - {{ item.verificado ? 'Verificada' : 'Pendiente' }}</p>
-                <p>{{ item.titular || item.biografia || 'Sin descripcion ampliada.' }}</p>
+                <p>{{ item.estudios || item.titular || item.biografia || 'Sin descripcion ampliada.' }}</p>
                 <p class="meta">Ubicacion: {{ item.ubicacion || 'No indicada' }}</p>
                 <div class="acciones">
                     <button type="button" @click="verificarUsuario(item._id, true)">Verificar</button>
@@ -103,8 +103,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Titular</label>
-                        <input v-model="edicionAdminFormulario.titular" placeholder="Titular" />
+                        <label>Estudios</label>
+                        <input v-model="edicionAdminFormulario.estudios" placeholder="Estudios" />
                     </div>
                     <div class="form-group">
                         <label>Nombre comercial</label>
@@ -176,7 +176,7 @@ export default {
                 nombre: "",
                 email: "",
                 rol: "usuario",
-                titular: "",
+                estudios: "",
                 nombreEmpresa: "",
                 ubicacion: "",
                 web: "",
@@ -217,7 +217,7 @@ export default {
                 nombre: usuario.nombre || "",
                 email: usuario.email || "",
                 rol: this.app.obtenerTextoRol(usuario.rol) || "usuario",
-                titular: usuario.titular || "",
+                estudios: usuario.estudios || usuario.titular || "",
                 nombreEmpresa: usuario.nombreEmpresa || "",
                 ubicacion: usuario.ubicacion || "",
                 web: usuario.web || "",
