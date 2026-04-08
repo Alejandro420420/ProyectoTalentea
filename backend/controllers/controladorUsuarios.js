@@ -31,27 +31,44 @@ const tiposPermitidos = {
 }
 
 const listarCreativosPublicos = manejarAsincrono(async (solicitud, respuesta) => {
-    const { categoria, palabraClave } = solicitud.query
-    const consulta = { rol: { $in: ["usuario", "creativo"] } }
+    const { categoria, palabraClave, rol, limite } = solicitud.query
+    const consulta =
+        rol === "empresa"
+            ? { rol: "empresa" }
+            : { rol: { $in: ["usuario", "creativo"] } }
 
     if (categoria) {
         consulta.categorias = categoria
     }
 
     if (palabraClave) {
-        consulta.$or = [
-            { nombre: new RegExp(palabraClave, "i") },
-            { titular: new RegExp(palabraClave, "i") },
-            { biografia: new RegExp(palabraClave, "i") },
-            { habilidades: new RegExp(palabraClave, "i") }
-        ]
+        consulta.$or =
+            rol === "empresa"
+                ? [
+                      { nombre: new RegExp(palabraClave, "i") },
+                      { nombreEmpresa: new RegExp(palabraClave, "i") },
+                      { titular: new RegExp(palabraClave, "i") },
+                      { biografia: new RegExp(palabraClave, "i") }
+                  ]
+                : [
+                      { nombre: new RegExp(palabraClave, "i") },
+                      { titular: new RegExp(palabraClave, "i") },
+                      { biografia: new RegExp(palabraClave, "i") },
+                      { habilidades: new RegExp(palabraClave, "i") }
+                  ]
     }
 
-    const creativos = await Usuario.find(consulta).sort({
+    const consultaMongoose = Usuario.find(consulta).sort({
         verificado: -1,
         valoracionMedia: -1,
         createdAt: -1
     })
+
+    if (limite) {
+        consultaMongoose.limit(Number(limite))
+    }
+
+    const creativos = await consultaMongoose
 
     respuesta.json({ elementos: creativos.map(sanitizarUsuario) })
 })

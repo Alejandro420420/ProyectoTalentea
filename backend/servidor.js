@@ -25,7 +25,7 @@ if (!fs.existsSync(carpetaSubidas)) {
 }
 
 servidor.use(cors())
-servidor.use(express.json({ limit: "35mb" }))
+servidor.use(express.json({ limit: "100mb" }))
 servidor.use(express.static(path.join(__dirname, "..", "frontend")))
 servidor.use("/uploads", express.static(carpetaSubidas))
 

@@ -1,0 +1,91 @@
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+}
+
+.modal-fondo {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+}
+
+.modal-contenido {
+    position: relative;
+    width: min(860px, calc(100% - 24px));
+    margin: 40px auto;
+    padding: 24px;
+    border-radius: var(--radio-xl);
+    background: var(--panel-fuerte);
+    border: 1px solid var(--linea);
+    box-shadow: var(--sombra);
+    max-height: calc(100vh - 80px);
+    overflow: auto;
+}
+
+.boton-cerrar-modal {
+    margin-bottom: 14px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#aviso {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    max-width: 340px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(20, 14, 32, 0.94);
+    color: white;
+    box-shadow: var(--sombra);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 180ms ease, transform 180ms ease;
+    pointer-events: none;
+}
+
+#aviso.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+    .cabecera,
+    .panel-titulo,
+    .barra-panel,
+    .hero-inicio,
+    .rejilla-mercado,
+    .resumen-grid,
+    .metricas,
+    .filtros {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acciones-cabecera {
+        justify-content: flex-start;
+    }
+
+    .grupo-navegacion {
+        width: auto;
+    }
+
+    .navegacion-panel {
+        overflow: hidden;
+        padding-bottom: 6px;
+        justify-self: stretch;
+        order: 3;
+        grid-column: 1 / -1;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    #listaEmpresasInicio {
+        grid-template-columns: 1fr;
+    }
+}

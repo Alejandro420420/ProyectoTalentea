@@ -1,0 +1,368 @@
+.hero-inicio {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+    gap: 18px;
+    align-items: stretch;
+}
+
+.hero-texto,
+.hero-estadisticas {
+    display: grid;
+    gap: 14px;
+}
+
+.hero-texto {
+    padding: 28px;
+    border-radius: var(--radio-xl);
+    border: 1px solid var(--linea);
+    background:
+        linear-gradient(135deg, rgba(142, 68, 255, 0.18), rgba(11, 8, 21, 0.8)),
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.08), transparent 28%);
+}
+
+.hero-texto h4 {
+    font-size: clamp(1.7rem, 2.5vw, 2.7rem);
+    line-height: 1.05;
+}
+
+.etiqueta-hero {
+    display: inline-flex;
+    width: fit-content;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--marca-fuerte);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.74rem;
+    font-weight: 700;
+}
+
+.hero-puntos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hero-puntos span {
+    display: inline-flex;
+    padding: 9px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--linea);
+}
+
+.mini-panel-destacado {
+    min-height: 100%;
+    background:
+        linear-gradient(180deg, rgba(176, 117, 255, 0.15), rgba(20, 12, 32, 0.92)),
+        var(--panel-fuerte);
+}
+
+.hero-inicio-infojobs {
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.9fr);
+}
+
+.hero-columnas {
+    grid-template-columns: 1fr;
+}
+
+.rejilla-mercado {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.bloque-listado {
+    display: grid;
+    gap: 14px;
+}
+
+.lista-simple,
+.lista-categorias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#listaEmpresasInicio {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.lista-simple span,
+.lista-categorias span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--linea);
+    color: var(--texto);
+}
+
+.lista-simple span {
+    width: 100%;
+}
+
+.lista-categorias span {
+    background: var(--marca-apagada);
+    color: var(--marca-fuerte);
+}
+
+.empresa-inicio {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    padding: 14px 12px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--linea);
+    text-align: center;
+}
+
+.empresa-inicio-logo .foto-perfil,
+.empresa-inicio-logo .foto-placeholder {
+    width: 72px;
+    height: 72px;
+}
+
+.empresa-inicio-nombre {
+    margin: 0;
+    font-weight: 600;
+    color: var(--texto);
+}
+
+.empresa-inicio-vacio {
+    grid-column: 1 / -1;
+}
+
+.barra-panel {
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+    padding: 14px 16px;
+    border: 1px solid var(--linea);
+    border-radius: 22px;
+    background: rgba(18, 13, 31, 0.78);
+    backdrop-filter: blur(16px);
+}
+
+body[data-tema="claro"] .barra-panel {
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.mini-panel,
+.tarjeta,
+.metricas > div {
+    padding: 18px;
+    border-radius: var(--radio-lg);
+    background: var(--panel-fuerte);
+}
+
+.tarjeta-proyecto {
+    position: relative;
+    padding-top: 26px;
+}
+
+.cabecera-tarjeta-proyecto {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.cabecera-perfil,
+.empresa-detalle {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.foto-perfil {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--linea);
+    background: var(--marca-apagada);
+}
+
+.foto-placeholder {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--marca), var(--marca-fuerte));
+    color: white;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.nombre-verificado {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tick-verificado {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: rgba(126, 87, 194, 0.18);
+    color: #7e57c2;
+    font-size: 0.82rem;
+    font-weight: 800;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.mini-panel p,
+.meta {
+    color: var(--texto-suave);
+}
+
+.filtros {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.lista-tarjetas {
+    display: grid;
+    gap: 14px;
+}
+
+.acciones {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.pill {
+    display: inline-flex;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--marca-apagada);
+    color: var(--marca-fuerte);
+    margin: 6px 6px 0 0;
+    font-size: 0.84rem;
+}
+
+.pill-habilidad {
+    background: rgba(32, 163, 123, 0.14);
+    color: #1f8a6a;
+}
+
+.bloque-portafolio {
+    display: grid;
+    gap: 14px;
+    padding: 18px;
+    border-radius: var(--radio-lg);
+    border: 1px solid var(--linea);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.preview-portafolio,
+.preview-video {
+    width: 100%;
+    max-height: 260px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid var(--linea);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.preview-audio {
+    width: 100%;
+}
+
+.enlace-portafolio,
+.enlace-boton {
+    text-decoration: none;
+}
+
+.enlace-boton {
+    display: inline-flex;
+    align-items: center;
+}
+
+.fila-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--texto-suave);
+}
+
+.fila-checkbox input {
+    width: auto;
+}
+
+.top-gap {
+    margin-top: 18px;
+}
+
+.tarjeta-clickable {
+    cursor: pointer;
+}
+
+.tarjeta-clickable:hover {
+    border-color: var(--marca);
+    transform: translateY(-1px);
+}
+
+.encabezado-detalle {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.detalle-valoraciones {
+    display: grid;
+    gap: 12px;
+}
+
+.boton-estrella {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.boton-eliminar-proyecto {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(255, 83, 112, 0.14);
+    color: #ff8aa0;
+    border: 1px solid rgba(255, 138, 160, 0.28);
+    font-size: 1rem;
+    z-index: 2;
+}
+
+.boton-eliminar-proyecto:hover {
+    background: rgba(255, 83, 112, 0.22);
+    color: #ffd6de;
+}
+
+.cabecera-tarjeta-proyecto .boton-eliminar-proyecto {
+    position: static;
+    flex: 0 0 auto;
+}
+
