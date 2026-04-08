@@ -2,10 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "servidor.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "test": "echo \"Sin tests automatizados todavia\"",
+    "dev": "nodemon servidor.js",
+    "start": "node servidor.js",
+    "crear:admin": "node scripts/crearAdministrador.js"
   },
   "keywords": [],
   "author": "",
