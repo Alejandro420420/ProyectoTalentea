@@ -3,35 +3,37 @@
     --radio-xl: 28px;
     --radio-lg: 20px;
     --radio-md: 14px;
-    --sombra: 0 24px 80px rgba(0, 0, 0, 0.45);
+    --sombra: 0 24px 70px rgba(12, 9, 34, 0.18);
 }
 
 body[data-tema="oscuro"] {
-    --fondo: #09060f;
-    --fondo-secundario: #140c20;
-    --panel: rgba(18, 13, 31, 0.88);
-    --panel-fuerte: rgba(28, 19, 49, 0.96);
-    --texto: #f6f0ff;
-    --texto-suave: #b8aacd;
-    --linea: rgba(177, 120, 255, 0.18);
-    --marca: #8e44ff;
-    --marca-fuerte: #b075ff;
-    --marca-apagada: rgba(142, 68, 255, 0.14);
+    --fondo: #07051b;
+    --fondo-secundario: #120b2c;
+    --fondo-calido: #2a1234;
+    --panel: rgba(12, 9, 34, 0.84);
+    --panel-fuerte: rgba(18, 13, 42, 0.94);
+    --texto: #fff8ee;
+    --texto-suave: #c9bed7;
+    --linea: rgba(181, 84, 226, 0.22);
+    --marca: #9d46d8;
+    --marca-fuerte: #f2a12a;
+    --marca-apagada: rgba(157, 70, 216, 0.14);
     --entrada: rgba(255, 255, 255, 0.04);
 }
 
 body[data-tema="claro"] {
-    --fondo: #f4efff;
-    --fondo-secundario: #e3d7ff;
-    --panel: rgba(255, 255, 255, 0.88);
-    --panel-fuerte: rgba(248, 244, 255, 0.96);
-    --texto: #171125;
-    --texto-suave: #65597b;
-    --linea: rgba(96, 51, 173, 0.16);
-    --marca: #6a28d9;
-    --marca-fuerte: #5020aa;
-    --marca-apagada: rgba(106, 40, 217, 0.12);
-    --entrada: rgba(106, 40, 217, 0.05);
+    --fondo: #fff8ee;
+    --fondo-secundario: #f3e8ff;
+    --fondo-calido: #ffe1a8;
+    --panel: rgba(255, 255, 255, 0.86);
+    --panel-fuerte: rgba(255, 252, 247, 0.95);
+    --texto: #080520;
+    --texto-suave: #675d78;
+    --linea: rgba(12, 9, 34, 0.11);
+    --marca: #9d46d8;
+    --marca-fuerte: #0b0826;
+    --marca-apagada: rgba(157, 70, 216, 0.1);
+    --entrada: rgba(12, 9, 34, 0.04);
 }
 
 * {
@@ -43,9 +45,10 @@ body {
     font-family: var(--fuente);
     color: var(--texto);
     background:
-        radial-gradient(circle at top left, rgba(142, 68, 255, 0.28), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(75, 0, 130, 0.34), transparent 24%),
-        linear-gradient(180deg, var(--fondo) 0%, #05030a 100%);
+        radial-gradient(circle at 14% 10%, rgba(242, 161, 42, 0.22), transparent 30%),
+        radial-gradient(circle at 86% 8%, rgba(157, 70, 216, 0.18), transparent 28%),
+        radial-gradient(circle at 82% 78%, rgba(239, 61, 49, 0.12), transparent 26%),
+        linear-gradient(145deg, var(--fondo) 0%, var(--fondo-secundario) 52%, var(--fondo-calido) 100%);
     min-height: 100vh;
     overflow-x: hidden;
     transition: background 220ms ease, color 220ms ease;
@@ -55,15 +58,29 @@ body {
     position: fixed;
     inset: 0;
     background:
-        linear-gradient(120deg, rgba(255, 255, 255, 0.02), transparent 20%),
+        linear-gradient(115deg, rgba(255, 255, 255, 0.18), transparent 24%),
+        linear-gradient(180deg, transparent 0%, rgba(8, 5, 32, 0.06) 100%),
         repeating-linear-gradient(
             135deg,
             transparent 0,
-            transparent 18px,
-            rgba(255, 255, 255, 0.015) 18px,
-            rgba(255, 255, 255, 0.015) 19px
+            transparent 22px,
+            rgba(12, 9, 34, 0.035) 22px,
+            rgba(12, 9, 34, 0.035) 23px
         );
     pointer-events: none;
+}
+
+body[data-tema="oscuro"] .fondo {
+    background:
+        linear-gradient(115deg, rgba(255, 255, 255, 0.04), transparent 24%),
+        linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.22) 100%),
+        repeating-linear-gradient(
+            135deg,
+            transparent 0,
+            transparent 22px,
+            rgba(255, 248, 238, 0.025) 22px,
+            rgba(255, 248, 238, 0.025) 23px
+        );
 }
 
 .contenedor {
@@ -85,17 +102,52 @@ body {
 .marca-principal {
     display: block;
     justify-self: start;
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    box-shadow: none;
 }
 
 .logo-principal,
 .logo-respaldo {
-    width: min(420px, 72vw);
+    width: min(300px, 68vw);
     height: auto;
-    max-height: 220px;
-    border-radius: 28px;
+    max-height: 150px;
+    border-radius: 20px;
     object-fit: contain;
     display: block;
+}
+
+body[data-tema="oscuro"] .logo-principal {
+    filter:
+        drop-shadow(0 0 10px rgba(255, 248, 238, 0.22))
+        drop-shadow(0 16px 26px rgba(0, 0, 0, 0.26));
+}
+
+.marca-principal:hover {
+    transform: none;
+    opacity: 1;
+}
+
+.marca-principal:hover .logo-principal {
+    filter: drop-shadow(0 12px 24px rgba(12, 9, 34, 0.18));
+}
+
+body[data-tema="oscuro"] .marca-principal:hover .logo-principal {
+    filter:
+        drop-shadow(0 0 14px rgba(255, 248, 238, 0.3))
+        drop-shadow(0 16px 26px rgba(0, 0, 0, 0.28));
+}
+
+.marca-principal:focus-visible {
+    outline: 3px solid var(--marca);
+    outline-offset: 6px;
+    border-radius: 18px;
 }
 
 .logo-respaldo {
@@ -250,7 +302,7 @@ body {
 
 .pestana.activa,
 .navegacion-panel button.activa {
-    background: linear-gradient(135deg, var(--marca), var(--marca-fuerte));
+    background: var(--marca);
     color: white;
     border-color: transparent;
 }
@@ -308,7 +360,7 @@ button {
     border: 1px solid transparent;
     border-radius: var(--radio-md);
     padding: 12px 16px;
-    background: linear-gradient(135deg, var(--marca), var(--marca-fuerte));
+    background: var(--marca);
     color: white;
     font-weight: 700;
     cursor: pointer;

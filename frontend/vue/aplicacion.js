@@ -136,10 +136,10 @@ createApp({
             <div class="fondo"></div>
             <div class="contenedor">
                 <header class="cabecera">
-                    <div class="marca-principal">
-                        <img class="logo-principal" src="/img/Talentea.png" alt="Logo Talentea" />
+                    <button class="marca-principal" type="button" @click="seleccionarSeccion('inicio')" aria-label="Volver a Inicio">
+                        <img class="logo-principal" src="/img/Talentea-recortado.png" alt="Logo Talentea" />
                         <p class="eslogan-principal">Haz que pase</p>
-                    </div>
+                    </button>
                     <nav v-if="usuario" class="navegacion-panel">
                         <div v-for="grupo in gruposNavegacion" :key="grupo.icono" class="grupo-navegacion">
                             <span class="titulo-grupo" v-html="iconoGrupo(grupo.icono)"></span>
