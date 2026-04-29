@@ -46,6 +46,8 @@ servidor.get(/^(?!\/api).*/, (solicitud, respuesta) => {
 
 servidor.use(manejarErrores)
 
-servidor.listen(process.env.PORT, () => {
-    console.log("Servidor corriendo en puerto " + process.env.PORT)
+const puerto = process.env.PORT || 10000
+
+servidor.listen(puerto, "0.0.0.0", () => {
+    console.log("Servidor corriendo en puerto " + puerto)
 })
