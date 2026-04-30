@@ -7,7 +7,10 @@
     "test": "echo \"Sin tests automatizados todavia\"",
     "dev": "nodemon servidor.js",
     "start": "node servidor.js",
-    "crear:admin": "node scripts/crearAdministrador.js"
+    "crear:admin": "node scripts/crearAdministrador.js",
+    "backup:crear": "node scripts/crearBackup.js",
+    "backup:verificar": "node scripts/verificarBackup.js",
+    "backup:restaurar": "node scripts/restaurarBackup.js"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +21,8 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.2.4"
+    "mongoose": "^9.2.4",
+    "talentea": "file:.."
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
