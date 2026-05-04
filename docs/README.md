@@ -31,12 +31,8 @@ Desde `backend`:
 npm run crear:admin
 ```
 
-Variables opcionales en `.env`:
 
-```env
-ADMIN_EMAIL=admin@talentea.local
-ADMIN_PASSWORD=Admin1234
-```
+
 
 ## Flujo del MVP
 
