@@ -19,6 +19,7 @@
                 <button class="pestana" :class="{ activa: pestanaAdmin === 'verificaciones' }" type="button" @click="pestanaAdmin = 'verificaciones'">Verificacion</button>
                 <button class="pestana" :class="{ activa: pestanaAdmin === 'usuarios' }" type="button" @click="pestanaAdmin = 'usuarios'">Usuarios</button>
                 <button class="pestana" :class="{ activa: pestanaAdmin === 'empresas' }" type="button" @click="pestanaAdmin = 'empresas'">Empresas</button>
+                <button class="pestana" :class="{ activa: pestanaAdmin === 'proyectos' }" type="button" @click="pestanaAdmin = 'proyectos'">Proyectos</button>
                 <button class="pestana" :class="{ activa: pestanaAdmin === 'auditoria' }" type="button" @click="pestanaAdmin = 'auditoria'">Auditoria</button>
             </div>
         </div>
@@ -65,6 +66,32 @@
                 </div>
             </article>
             <article v-if="!empresasAdmin.length" class="tarjeta md-card"><p class="meta">No hay empresas registradas.</p></article>
+        </div>
+
+        <div v-show="pestanaAdmin === 'proyectos'" class="lista-tarjetas top-gap">
+            <article v-for="proyecto in proyectosAdmin" :key="proyecto._id" class="tarjeta md-card">
+                <div class="cabecera-tarjeta-proyecto">
+                    <div>
+                        <h3>{{ proyecto.titulo }}</h3>
+                        <p class="meta">
+                            {{ proyecto.categoria }} - Estado: {{ proyecto.estado }} - {{ proyecto.remoto ? 'Remoto' : (proyecto.ubicacion || 'Presencial') }}
+                        </p>
+                    </div>
+                    <button type="button" class="boton-eliminar-proyecto" @click="eliminarProyectoAdmin(proyecto._id)">X</button>
+                </div>
+                <p>{{ proyecto.descripcion }}</p>
+                <p class="meta">Empresa: {{ proyecto.empresa?.nombreEmpresa || proyecto.empresa?.nombre || 'Sin empresa' }}</p>
+                <p class="meta">Salario: {{ proyecto.salario || 0 }} EUR / {{ proyecto.frecuenciaSalario || 'mes' }}</p>
+                <div>
+                    <span v-for="palabra in proyecto.palabrasClave || []" :key="`${proyecto._id}-${palabra}`" class="pill">{{ palabra }}</span>
+                </div>
+                <div class="acciones">
+                    <button type="button" class="boton-secundario" @click="abrirEdicionProyectoAdmin(proyecto)">Editar</button>
+                    <button type="button" class="boton-secundario" @click="app.abrirProyecto(proyecto._id)">Ver detalle</button>
+                    <button type="button" class="boton-secundario" @click="eliminarProyectoAdmin(proyecto._id)">Eliminar</button>
+                </div>
+            </article>
+            <article v-if="!proyectosAdmin.length" class="tarjeta md-card"><p class="meta">No hay proyectos publicados.</p></article>
         </div>
 
         <div v-show="pestanaAdmin === 'auditoria'" class="lista-tarjetas top-gap">
@@ -168,6 +195,73 @@
                 </form>
             </div>
         </section>
+
+        <section v-if="modalEdicionProyectoAdmin" class="modal">
+            <div class="modal-fondo" @click="modalEdicionProyectoAdmin = false"></div>
+            <div class="modal-contenido">
+                <button type="button" class="boton-secundario boton-cerrar-modal" @click="modalEdicionProyectoAdmin = false">Cerrar</button>
+                <div class="view-subheader">
+                    <div>
+                        <p class="etiqueta">Administracion</p>
+                        <h3>Editar proyecto</h3>
+                    </div>
+                </div>
+                <form class="stack top-gap" @submit.prevent="guardarProyectoAdmin">
+                    <div class="form-group">
+                        <label>Titulo</label>
+                        <input v-model="edicionProyectoFormulario.titulo" required placeholder="Titulo del proyecto" />
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <input v-model="edicionProyectoFormulario.categoria" required placeholder="Categoria" />
+                    </div>
+                    <div class="form-group">
+                        <label>Descripcion</label>
+                        <textarea v-model="edicionProyectoFormulario.descripcion" required rows="5" placeholder="Descripcion"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Palabras clave</label>
+                        <input v-model="edicionProyectoFormulario.palabrasClave" placeholder="Separadas por comas" />
+                    </div>
+                    <div class="filtros">
+                        <div class="form-group">
+                            <label>Salario</label>
+                            <input v-model.number="edicionProyectoFormulario.salario" type="number" min="0" placeholder="0" />
+                        </div>
+                        <div class="form-group">
+                            <label>Frecuencia</label>
+                            <select v-model="edicionProyectoFormulario.frecuenciaSalario">
+                                <option value="dia">Dia</option>
+                                <option value="mes">Mes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filtros">
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <select v-model="edicionProyectoFormulario.estado">
+                                <option value="abierto">Abierto</option>
+                                <option value="cerrado">Cerrado</option>
+                                <option value="completado">Completado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ubicacion</label>
+                            <input v-model="edicionProyectoFormulario.ubicacion" placeholder="Ubicacion" />
+                        </div>
+                    </div>
+                    <label class="fila-checkbox">
+                        <input v-model="edicionProyectoFormulario.remoto" type="checkbox" />
+                        <span>Proyecto remoto</span>
+                    </label>
+
+                    <div class="form-actions">
+                        <button type="submit">Guardar cambios</button>
+                        <button type="button" class="boton-secundario" @click="eliminarProyectoAdmin(edicionProyectoFormulario.idProyecto)">Eliminar proyecto</button>
+                    </div>
+                </form>
+            </div>
+        </section>
     </section>
 </template>
 
@@ -181,8 +275,10 @@ export default {
             pestanaAdmin: "verificaciones",
             metricasAdmin: {},
             usuariosAdmin: [],
+            proyectosAdmin: [],
             auditoria: [],
             modalEdicionAdmin: false,
+            modalEdicionProyectoAdmin: false,
             edicionAdminFormulario: {
                 idUsuario: "",
                 nombre: "",
@@ -196,6 +292,18 @@ export default {
                 fotoPerfil: "",
                 verificado: false,
                 portafolio: []
+            },
+            edicionProyectoFormulario: {
+                idProyecto: "",
+                titulo: "",
+                descripcion: "",
+                categoria: "",
+                palabrasClave: "",
+                salario: 0,
+                frecuenciaSalario: "mes",
+                ubicacion: "",
+                remoto: true,
+                estado: "abierto"
             }
         }
     },
@@ -215,13 +323,15 @@ export default {
     },
     methods: {
         async cargarAdministracion() {
-            const [panel, usuarios, auditoria] = await Promise.all([
+            const [panel, usuarios, proyectos, auditoria] = await Promise.all([
                 this.app.llamarApi("/api/administracion/panel"),
                 this.app.llamarApi("/api/administracion/usuarios"),
+                this.app.llamarApi("/api/proyectos"),
                 this.app.llamarApi("/api/administracion/auditoria")
             ])
             this.metricasAdmin = panel.metricas || {}
             this.usuariosAdmin = usuarios.elementos || []
+            this.proyectosAdmin = proyectos.elementos || []
             this.auditoria = auditoria.elementos || []
         },
         abrirEdicionAdmin(usuario) {
@@ -300,6 +410,38 @@ export default {
             await this.app.llamarApi(`/api/administracion/usuarios/${id}`, { method: "DELETE" })
             this.app.mostrarAviso("Usuario eliminado")
             await this.cargarAdministracion()
+        },
+        abrirEdicionProyectoAdmin(proyecto) {
+            this.edicionProyectoFormulario = {
+                idProyecto: proyecto._id,
+                titulo: proyecto.titulo || "",
+                descripcion: proyecto.descripcion || "",
+                categoria: proyecto.categoria || "",
+                palabrasClave: Array.isArray(proyecto.palabrasClave) ? proyecto.palabrasClave.join(", ") : "",
+                salario: proyecto.salario || 0,
+                frecuenciaSalario: proyecto.frecuenciaSalario || "mes",
+                ubicacion: proyecto.ubicacion || "",
+                remoto: typeof proyecto.remoto === "boolean" ? proyecto.remoto : true,
+                estado: proyecto.estado || "abierto"
+            }
+            this.modalEdicionProyectoAdmin = true
+        },
+        async guardarProyectoAdmin() {
+            await this.app.llamarApi(`/api/proyectos/${this.edicionProyectoFormulario.idProyecto}`, {
+                method: "PUT",
+                body: JSON.stringify(this.edicionProyectoFormulario)
+            })
+            this.modalEdicionProyectoAdmin = false
+            this.app.mostrarAviso("Proyecto actualizado")
+            await Promise.all([this.cargarAdministracion(), this.app.cargarProyectos()])
+        },
+        async eliminarProyectoAdmin(id) {
+            if (!window.confirm("Quieres eliminar este proyecto? Esta accion no se puede deshacer.")) return
+            await this.app.llamarApi(`/api/proyectos/${id}`, { method: "DELETE" })
+            this.modalEdicionProyectoAdmin = false
+            this.app.modalProyecto = null
+            this.app.mostrarAviso("Proyecto eliminado")
+            await Promise.all([this.cargarAdministracion(), this.app.cargarProyectos(), this.app.cargarVistasPrivadas()])
         },
         eliminarMuestraPortafolio(indice) {
             this.edicionAdminFormulario.portafolio.splice(indice, 1)
