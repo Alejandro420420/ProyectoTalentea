@@ -87,6 +87,18 @@
                 </div>
                 <form class="stack top-gap" @submit.prevent="guardarEdicionAdmin">
                     <div class="form-group">
+                        <label>Foto de perfil (.png)</label>
+                        <div class="foto-admin-edicion">
+                            <div v-html="app.renderizarAvatarHtml(edicionAdminFormulario, edicionAdminFormulario.nombreEmpresa || edicionAdminFormulario.nombre)"></div>
+                            <div class="stack">
+                                <input type="file" accept=".png,image/png" @change="subirFotoPerfilAdmin" />
+                                <div class="acciones">
+                                    <button v-if="edicionAdminFormulario.fotoPerfil" type="button" class="boton-secundario" @click="eliminarFotoPerfilAdmin">Eliminar foto</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label>Nombre</label>
                         <input v-model="edicionAdminFormulario.nombre" placeholder="Nombre" />
                     </div>
@@ -181,6 +193,7 @@ export default {
                 ubicacion: "",
                 web: "",
                 biografia: "",
+                fotoPerfil: "",
                 verificado: false,
                 portafolio: []
             }
@@ -222,16 +235,54 @@ export default {
                 ubicacion: usuario.ubicacion || "",
                 web: usuario.web || "",
                 biografia: usuario.biografia || "",
+                fotoPerfil: usuario.fotoPerfil || "",
                 verificado: Boolean(usuario.verificado),
                 portafolio: Array.isArray(usuario.portafolio) ? [...usuario.portafolio] : []
             }
             this.modalEdicionAdmin = true
         },
+        async subirFotoPerfilAdmin(evento) {
+            const archivo = evento.target.files?.[0]
+            if (!archivo) return
+
+            if (archivo.type !== "image/png") {
+                this.app.mostrarAviso("La foto de perfil debe ser un archivo PNG", true)
+                evento.target.value = ""
+                return
+            }
+
+            const contenidoBase64 = await new Promise((resolve, reject) => {
+                const lector = new FileReader()
+                lector.onload = () => resolve(String(lector.result).split(",")[1] || "")
+                lector.onerror = reject
+                lector.readAsDataURL(archivo)
+            })
+
+            const subida = await this.app.llamarApi("/api/usuarios/subidas", {
+                method: "POST",
+                body: JSON.stringify({
+                    nombreArchivo: archivo.name,
+                    tipoMime: archivo.type,
+                    contenidoBase64
+                })
+            })
+
+            this.edicionAdminFormulario.fotoPerfil = subida.archivo.url
+            evento.target.value = ""
+            this.app.mostrarAviso("Foto de perfil lista para guardar")
+        },
+        eliminarFotoPerfilAdmin() {
+            this.edicionAdminFormulario.fotoPerfil = ""
+            this.app.mostrarAviso("Foto de perfil marcada para eliminar")
+        },
         async guardarEdicionAdmin() {
-            await this.app.llamarApi(`/api/administracion/usuarios/${this.edicionAdminFormulario.idUsuario}`, {
+            const datos = await this.app.llamarApi(`/api/administracion/usuarios/${this.edicionAdminFormulario.idUsuario}`, {
                 method: "PUT",
                 body: JSON.stringify(this.edicionAdminFormulario)
             })
+            if (datos.usuario?._id === this.app.usuario?._id) {
+                this.app.guardarSesion({ token: this.app.token, usuario: datos.usuario })
+            }
             this.modalEdicionAdmin = false
             this.app.mostrarAviso("Usuario actualizado")
             await this.cargarAdministracion()
@@ -256,3 +307,12 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.foto-admin-edicion {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+</style>

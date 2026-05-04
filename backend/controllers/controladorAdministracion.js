@@ -39,7 +39,7 @@ const actualizarUsuarioAdministracion = manejarAsincrono(async (solicitud, respu
         return respuesta.status(404).json({ mensaje: "Usuario no encontrado" })
     }
 
-    const camposPermitidos = ["nombre", "email", "rol", "estudios", "biografia", "ubicacion", "web", "nombreEmpresa", "verificado"]
+    const camposPermitidos = ["nombre", "email", "rol", "estudios", "biografia", "ubicacion", "web", "nombreEmpresa", "verificado", "fotoPerfil"]
     camposPermitidos.forEach((campo) => {
         if (typeof solicitud.body[campo] !== "undefined") {
             usuario[campo] = solicitud.body[campo]
