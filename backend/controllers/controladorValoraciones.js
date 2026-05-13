@@ -46,10 +46,8 @@ const crearValoracion = manejarAsincrono(async (solicitud, respuesta) => {
 
     const autorEsEmpresa = proyecto.empresa.toString() === solicitud.usuario._id.toString()
     const idsParticipantes = await obtenerIdsParticipantesProyecto(proyecto)
-    const autorEsCreativo = idsParticipantes.includes(solicitud.usuario._id.toString()) && !autorEsEmpresa
-
-    if (!autorEsEmpresa && !autorEsCreativo && solicitud.usuario.rol !== "admin") {
-        return respuesta.status(403).json({ mensaje: "No participaste en este proyecto" })
+    if (!autorEsEmpresa && solicitud.usuario.rol !== "admin") {
+        return respuesta.status(403).json({ mensaje: "Solo las empresas pueden valorar trabajos" })
     }
 
     if (proyecto.estado !== "completado" && solicitud.usuario.rol !== "admin") {
@@ -87,6 +85,10 @@ const crearValoracion = manejarAsincrono(async (solicitud, respuesta) => {
 
 const obtenerOpcionesValoracion = manejarAsincrono(async (solicitud, respuesta) => {
     const rolNormalizado = solicitud.usuario.rol === "creativo" ? "usuario" : solicitud.usuario.rol
+    if (rolNormalizado === "usuario") {
+        return respuesta.json({ elementos: [] })
+    }
+
     const idDestinatarioFiltrado = solicitud.query.idDestinatario || ""
     const consulta = rolNormalizado === "empresa" ? { empresa: solicitud.usuario._id, estado: "completado" } : { estado: "completado" }
 

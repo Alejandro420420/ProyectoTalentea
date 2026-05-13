@@ -312,6 +312,12 @@ body[data-tema="oscuro"] .marca-principal:hover .logo-principal {
     gap: 12px;
 }
 
+.mensaje-error-login {
+    margin: -2px 0 0;
+    color: #d93535;
+    font-weight: 700;
+}
+
 input,
 textarea,
 select,

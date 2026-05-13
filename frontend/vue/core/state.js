@@ -9,6 +9,7 @@ window.TalenteaState = {
             aviso: { mensaje: "", visible: false, error: false },
             registro: { nombre: "", email: "", password: "", rol: "usuario", nombreEmpresa: "" },
             login: { email: "", password: "" },
+            loginError: "",
             perfil: {
                 nombre: "",
                 fotoPerfil: "",

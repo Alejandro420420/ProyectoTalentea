@@ -1,4 +1,12 @@
 window.TalenteaHelpers = {
+    escaparHtml(valor = "") {
+        return String(valor)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;")
+    },
     esRolUsuario(usuario) {
         return usuario?.rol === "usuario" || usuario?.rol === "creativo"
     },
@@ -15,10 +23,15 @@ window.TalenteaHelpers = {
     },
     renderizarAvatarHtml(entidad, nombreAlternativo = "Perfil") {
         const nombre = entidad?.nombreEmpresa || entidad?.nombre || nombreAlternativo
+        const nombreSeguro = this.escaparHtml(nombre)
+        const iniciales = this.escaparHtml(this.obtenerIniciales(nombre))
+        const placeholder = `<div class="foto-placeholder">${iniciales}</div>`
+        const placeholderError = `<div class=&quot;foto-placeholder&quot;>${iniciales}</div>`
         if (entidad?.fotoPerfil) {
-            return `<img class="foto-perfil" src="${entidad.fotoPerfil}" alt="${nombre}" />`
+            const url = this.escaparHtml(entidad.fotoPerfil.startsWith("uploads/") ? `/${entidad.fotoPerfil}` : entidad.fotoPerfil)
+            return `<img class="foto-perfil" src="${url}" alt="${nombreSeguro}" referrerpolicy="no-referrer" onerror="this.outerHTML='${placeholderError}'" />`
         }
-        return `<div class="foto-placeholder">${this.obtenerIniciales(nombre)}</div>`
+        return placeholder
     },
     obtenerTipoMedia(url = "") {
         const normalizada = url.toLowerCase()

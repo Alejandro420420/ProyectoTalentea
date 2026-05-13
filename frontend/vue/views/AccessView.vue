@@ -25,6 +25,7 @@
                 <div class="form-actions">
                     <button type="submit">Entrar</button>
                 </div>
+                <p v-if="app.loginError" class="mensaje-error-login">{{ app.loginError }}</p>
             </form>
 
             <form v-else class="stack top-gap" @submit.prevent="enviarRegistro">
@@ -87,6 +88,7 @@ export default {
         },
         async enviarLogin() {
             const payload = { ...this.app.login }
+            this.app.loginError = ""
 
             try {
                 const datos = await this.app.llamarApi("/api/autenticacion/login", {
@@ -101,6 +103,8 @@ export default {
                     this.app.cargarVistasPrivadas(),
                     this.app.cargarEmpresasInicio()
                 ])
+            } catch (error) {
+                this.app.loginError = `No se pudo iniciar sesion: ${error.message}`
             } finally {
                 this.app.login.password = ""
             }

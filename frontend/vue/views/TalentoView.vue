@@ -42,7 +42,7 @@
                 </div>
                 <div class="acciones">
                     <button type="button" class="boton-secundario" @click.stop="app.abrirPerfil(persona._id)">Ver perfil</button>
-                    <button v-if="app.usuario" type="button" class="boton-estrella" @click.stop="abrirValoracion(persona._id)">&#9733; Valorar</button>
+                    <button v-if="puedeValorar" type="button" class="boton-estrella" @click.stop="abrirValoracion(persona._id)">&#9733; Valorar</button>
                 </div>
             </article>
             <article v-if="!app.talento.length" class="tarjeta md-card"><p class="meta">No hay perfiles para esos filtros.</p></article>
@@ -54,6 +54,11 @@
 export default {
     props: {
         app: { type: Object, required: true }
+    },
+    computed: {
+        puedeValorar() {
+            return this.app.usuario?.rol === "empresa" || this.app.usuario?.rol === "admin"
+        }
     },
     methods: {
         async cargarTalento() {

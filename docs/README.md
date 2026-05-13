@@ -50,3 +50,13 @@ npm run crear:admin
 - `backend/`: API REST con Express y MongoDB
 - `frontend/`: interfaz web ligera servida como estatico por Express
 - `docs/README.md`: guia de uso del MVP
+- `docs/BITACORA_SEMANA_FINAL.md`: ampliacion de la bitacora con la ultima semana de cierre
+- `docs/CIERRE_PROYECTO.md`: planificacion final, comparacion con la planificacion preliminar y lecciones aprendidas
+
+## Comprobaciones finales de entrega
+
+- El login muestra un mensaje visible si las credenciales son incorrectas.
+- Los usuarios creativos no ven el apartado `Valorar trabajo`.
+- Las empresas mantienen el acceso a valoraciones cuando el proyecto esta completado.
+- La API de salud responde en `/api/salud`.
+- La documentacion final esta reunida en la carpeta `docs/`.

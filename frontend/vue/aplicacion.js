@@ -61,8 +61,7 @@ createApp({
                 grupos.push({
                     icono: "user",
                     secciones: [
-                        { id: "mis-candidaturas", etiqueta: "Mis candidaturas" },
-                        { id: "valoraciones", etiqueta: "Valorar trabajo" }
+                        { id: "mis-candidaturas", etiqueta: "Mis candidaturas" }
                     ]
                 })
             }
