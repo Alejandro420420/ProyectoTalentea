@@ -17,7 +17,7 @@
                 </div>
                 <div class="hero-estadisticas hero-columnas">
                     <article class="mini-panel mini-panel-destacado"><p class="etiqueta">Empresas activas</p><h4>Sellos, estudios, agencias, marcas y productoras</h4><p>Espacios donde un portfolio creativo tiene mas peso que un curriculum tradicional.</p></article>
-                    <article class="mini-panel"><p class="etiqueta">Perfiles top</p><h4>Diseno, musica, fotografia, video y contenido</h4><p>Talento recomendado para proyectos visuales, sonoros y digitales.</p></article>
+                    <article class="mini-panel"><p class="etiqueta">Perfiles top</p><h4>Diseño, Redes sociales, musica, fotografia, video y contenido</h4><p>Talento recomendado para proyectos visuales, sonoros y digitales.</p></article>
                 </div>
             </section>
         </section>
@@ -37,7 +37,7 @@
             </article>
             <article class="mini-panel bloque-listado md-card">
                 <div class="view-subheader"><div><p class="etiqueta">Bolsa de usuarios</p><h3>Perfiles recomendados</h3></div></div>
-                <div class="lista-simple"><span>Disenador grafico</span><span>Productor musical</span><span>Editor de video</span><span>Fotografo creativo</span><span>Ilustrador digital</span><span>Motion designer</span></div>
+                <div class="lista-simple"><span>Disenador grafico</span><span>Productor musical</span><span>Editor de video</span><span>Influencer</span><span>Ilustrador digital</span><span>Motion designer</span></div>
             </article>
             <article class="mini-panel bloque-listado md-card">
                 <div class="view-subheader"><div><p class="etiqueta">Categorias</p><h3>Especialidades destacadas</h3></div></div>
