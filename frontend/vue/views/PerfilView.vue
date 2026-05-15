@@ -120,20 +120,21 @@ export default {
                 })
 
                 this.app.perfil.fotoPerfil = subida.archivo.url
-                this.app.mostrarAviso("Foto de perfil subida")
+                await this.guardarPerfil("Foto de perfil subida y guardada")
             } catch (error) {
                 this.app.mostrarAviso(error.message, true)
             } finally {
                 evento.target.value = ""
             }
         },
-        async guardarPerfil() {
+        async guardarPerfil(mensaje = "Perfil actualizado") {
+            const textoAviso = typeof mensaje === "string" ? mensaje : "Perfil actualizado"
             const datos = await this.app.llamarApi("/api/usuarios/mi-perfil", {
                 method: "PUT",
                 body: JSON.stringify({ ...this.app.perfil, portafolio: this.app.portafolioEdicion })
             })
             this.app.guardarSesion({ token: this.app.token, usuario: datos.usuario })
-            this.app.mostrarAviso("Perfil actualizado")
+            this.app.mostrarAviso(textoAviso)
             await Promise.all([this.app.cargarTalento(), this.app.cargarEmpresasInicio()])
         },
         async subirArchivoPortafolio(evento) {
@@ -172,15 +173,20 @@ export default {
                     urlProyecto: subida.archivo.url
                 })
 
-                this.app.mostrarAviso("Archivo subido al portfolio")
+                await this.guardarPerfil("Archivo subido y guardado en el portfolio")
             } catch (error) {
                 this.app.mostrarAviso(error.message, true)
             } finally {
                 evento.target.value = ""
             }
         },
-        eliminarMuestra(indice) {
+        async eliminarMuestra(indice) {
             this.app.portafolioEdicion.splice(indice, 1)
+            try {
+                await this.guardarPerfil("Muestra eliminada del portfolio")
+            } catch (error) {
+                this.app.mostrarAviso(error.message, true)
+            }
         }
     }
 }
