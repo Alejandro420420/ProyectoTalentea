@@ -109,18 +109,23 @@ export default {
                 lector.readAsDataURL(archivo)
             })
 
-            const subida = await this.app.llamarApi("/api/usuarios/subidas", {
-                method: "POST",
-                body: JSON.stringify({
-                    nombreArchivo: archivo.name,
-                    tipoMime: archivo.type,
-                    contenidoBase64
+            try {
+                const subida = await this.app.llamarApi("/api/usuarios/subidas", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        nombreArchivo: archivo.name,
+                        tipoMime: archivo.type,
+                        contenidoBase64
+                    })
                 })
-            })
 
-            this.app.perfil.fotoPerfil = subida.archivo.url
-            evento.target.value = ""
-            this.app.mostrarAviso("Foto de perfil subida")
+                this.app.perfil.fotoPerfil = subida.archivo.url
+                this.app.mostrarAviso("Foto de perfil subida")
+            } catch (error) {
+                this.app.mostrarAviso(error.message, true)
+            } finally {
+                evento.target.value = ""
+            }
         },
         async guardarPerfil() {
             const datos = await this.app.llamarApi("/api/usuarios/mi-perfil", {
@@ -135,6 +140,13 @@ export default {
             const archivo = evento.target.files?.[0]
             if (!archivo) return
 
+            const limiteMegas = 50
+            if (archivo.size > limiteMegas * 1024 * 1024) {
+                this.app.mostrarAviso(`El archivo no puede superar ${limiteMegas} MB`, true)
+                evento.target.value = ""
+                return
+            }
+
             const contenidoBase64 = await new Promise((resolve, reject) => {
                 const lector = new FileReader()
                 lector.onload = () => resolve(String(lector.result).split(",")[1] || "")
@@ -142,25 +154,30 @@ export default {
                 lector.readAsDataURL(archivo)
             })
 
-            const subida = await this.app.llamarApi("/api/usuarios/subidas", {
-                method: "POST",
-                body: JSON.stringify({
-                    nombreArchivo: archivo.name,
-                    tipoMime: archivo.type,
-                    contenidoBase64
+            try {
+                const subida = await this.app.llamarApi("/api/usuarios/subidas", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        nombreArchivo: archivo.name,
+                        tipoMime: archivo.type,
+                        contenidoBase64
+                    })
                 })
-            })
 
-            this.app.portafolioEdicion.push({
-                titulo: archivo.name,
-                descripcion: "",
-                categoria: "",
-                urlMedia: subida.archivo.url,
-                urlProyecto: subida.archivo.url
-            })
+                this.app.portafolioEdicion.push({
+                    titulo: archivo.name,
+                    descripcion: "",
+                    categoria: "",
+                    urlMedia: subida.archivo.url,
+                    urlProyecto: subida.archivo.url
+                })
 
-            evento.target.value = ""
-            this.app.mostrarAviso("Archivo subido al portfolio")
+                this.app.mostrarAviso("Archivo subido al portfolio")
+            } catch (error) {
+                this.app.mostrarAviso(error.message, true)
+            } finally {
+                evento.target.value = ""
+            }
         },
         eliminarMuestra(indice) {
             this.app.portafolioEdicion.splice(indice, 1)

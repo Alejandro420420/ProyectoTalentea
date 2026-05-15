@@ -23,11 +23,32 @@ const parsearLista = (valor) => {
 
 const tiposPermitidos = {
     "image/jpeg": ".jpg",
+    "image/jpg": ".jpg",
     "image/png": ".png",
     "image/webp": ".webp",
     "image/gif": ".gif",
     "audio/mpeg": ".mp3",
+    "audio/mp3": ".mp3",
     "video/mp4": ".mp4"
+}
+
+const tiposPorExtension = {
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
+    ".webp": "image/webp",
+    ".gif": "image/gif",
+    ".mp3": "audio/mpeg",
+    ".mp4": "video/mp4"
+}
+
+const resolverTipoArchivo = (nombreArchivo = "", tipoMime = "") => {
+    if (tiposPermitidos[tipoMime]) {
+        return tipoMime
+    }
+
+    const extension = path.extname(nombreArchivo).toLowerCase()
+    return tiposPorExtension[extension] || ""
 }
 
 const listarCreativosPublicos = manejarAsincrono(async (solicitud, respuesta) => {
@@ -135,8 +156,9 @@ const actualizarPerfil = manejarAsincrono(async (solicitud, respuesta) => {
 
 const subirArchivoPortafolio = manejarAsincrono(async (solicitud, respuesta) => {
     const { nombreArchivo, tipoMime, contenidoBase64 } = solicitud.body
+    const tipoResuelto = resolverTipoArchivo(nombreArchivo, tipoMime)
 
-    if (!tiposPermitidos[tipoMime]) {
+    if (!tiposPermitidos[tipoResuelto]) {
         return respuesta.status(400).json({ mensaje: "Formato no permitido. Usa imagen, mp3 o mp4" })
     }
 
@@ -144,7 +166,7 @@ const subirArchivoPortafolio = manejarAsincrono(async (solicitud, respuesta) => 
         return respuesta.status(400).json({ mensaje: "No se ha recibido ningun archivo" })
     }
 
-    const extension = tiposPermitidos[tipoMime]
+    const extension = tiposPermitidos[tipoResuelto]
     const nombreSeguro = (path.parse(nombreArchivo || "archivo").name || "archivo")
         .replace(/[^a-zA-Z0-9-_]/g, "-")
         .slice(0, 60)
@@ -153,13 +175,17 @@ const subirArchivoPortafolio = manejarAsincrono(async (solicitud, respuesta) => 
     const rutaArchivo = path.join(rutaCarpeta, nombreFinal)
     const buffer = Buffer.from(contenidoBase64, "base64")
 
+    if (!fs.existsSync(rutaCarpeta)) {
+        fs.mkdirSync(rutaCarpeta, { recursive: true })
+    }
+
     fs.writeFileSync(rutaArchivo, buffer)
 
     respuesta.status(201).json({
         archivo: {
             nombre: nombreFinal,
             url: `/uploads/${nombreFinal}`,
-            tipoMime
+            tipoMime: tipoResuelto
         }
     })
 })
